@@ -1,0 +1,4 @@
+[submodule "crypto-finder"]
+	path = crypto-finder
+	url = https://github.com/scanoss/crypto-finder
+	branch = main
