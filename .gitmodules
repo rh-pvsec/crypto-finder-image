@@ -2,3 +2,9 @@
 	path = crypto-finder
 	url = https://github.com/scanoss/crypto-finder
 	branch = main
+[submodule "rh-crypto-rules"]
+	path = rh-crypto-rules
+	url = https://github.com/rh-pvsec/rh-crypto-rules.git
+[submodule "open-crypto-rules"]
+	path = open-crypto-rules
+	url = https://github.com/scanoss/open-crypto-rules.git
