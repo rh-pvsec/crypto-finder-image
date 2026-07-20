@@ -41,6 +41,8 @@ ENV PATH="$PATH:/root/.opengrep/cli/latest"
 COPY --from=builder /build/crypto-finder /usr/local/bin/crypto-finder
 
 RUN mkdir -p /usr/local/rules
+COPY open-crypto-rules/semgrep-rules /usr/local/rules/open-crypto-rules
+COPY rh-crypto-rules/semgrep-rules /usr/local/rules/rh-crypto-rules
 
 WORKDIR /workspace
 
@@ -52,8 +54,9 @@ LABEL name="crypto-scanner-image" \
 
 ENTRYPOINT [ "crypto-finder", \
     "scan", "--no-remote-rules", \
-    "--rules-dir", "/usr/local/rules/crypto-rules", \
+    "--rules-dir", "/usr/local/rules/open-crypto-rules", \
     "--rules-dir", "/usr/local/rules/rh-crypto-rules", \
     "--format", "cyclonedx", \
     "--timeout", "60m" \
 ]
+
