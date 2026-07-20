@@ -377,6 +377,8 @@ spec:
         value: $(tasks.prefetch-dependencies.results.SOURCE_ARTIFACT)
       - name: CACHI2_ARTIFACT
         value: $(tasks.prefetch-dependencies.results.CACHI2_ARTIFACT)
+      - name: IGNORE_FILE_PATHS
+        value: "sample,crypto-finder/testdata,crypto-finder/internal/callgraph/testdata"
       runAfter:
       - build-image-index
       taskRef:
