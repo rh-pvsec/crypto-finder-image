@@ -1,0 +1,3 @@
+pytest == 8.4.2
+pytest_container == 0.4.4
+cyclonedx-python-lib[validation] ==11.11.0
