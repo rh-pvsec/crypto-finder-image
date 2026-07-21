@@ -1,0 +1,885 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:ecbb332b-518c-46a4-9d59-7db97208d12b",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-27T09:07:53Z",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "group": "SCANOSS",
+          "name": "crypto-finder",
+          "version": "1.26.2"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "293106ab-2d90-44c1-8cb6-64a6176a395c",
+      "type": "cryptographic-asset",
+      "name": "CSPRNG",
+      "evidence": {
+        "identity": [
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.rand.usage"
+              }
+            ]
+          },
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.rand.usage"
+              }
+            ]
+          }
+        ],
+        "occurrences": [
+          {
+            "location": "internal/tshelpers/fakeregistry.go",
+            "line": 307,
+            "additionalContext": "scanoss:match,sn, err := rand.Int(rand.Reader, big.NewInt(1000000))"
+          },
+          {
+            "location": "pkg/asset/ignition/bootstrap/baremetal/ironic_creds.go",
+            "line": 43,
+            "additionalContext": "scanoss:match,c, err := rand.Int(rand.Reader, numChars)"
+          },
+          {
+            "location": "pkg/asset/imagebased/configimage/ingressoperatorsigner.go",
+            "line": 106,
+            "additionalContext": "scanoss:match,serial, err := rand.Int(rand.Reader, new(big.Int).SetInt64(math.MaxInt64))"
+          },
+          {
+            "location": "pkg/asset/password/password.go",
+            "line": 54,
+            "additionalContext": "scanoss:match,n, err := rand.Int(rand.Reader, big.NewInt(int64(len(all))))"
+          },
+          {
+            "location": "pkg/asset/password/password.go",
+            "line": 63,
+            "additionalContext": "scanoss:match,n, err = rand.Int(rand.Reader, big.NewInt(int64(len(password)+1)))"
+          },
+          {
+            "location": "pkg/asset/tls/iriregistryauth.go",
+            "line": 67,
+            "additionalContext": "scanoss:match,if _, err := rand.Read(passwordBytes); err != nil {"
+          },
+          {
+            "location": "pkg/asset/tls/tls.go",
+            "line": 58,
+            "additionalContext": "scanoss:match,serial, err := rand.Int(rand.Reader, new(big.Int).SetInt64(math.MaxInt64))"
+          },
+          {
+            "location": "pkg/asset/tls/tls.go",
+            "line": 95,
+            "additionalContext": "scanoss:match,serial, err := rand.Int(rand.Reader, new(big.Int).SetInt64(math.MaxInt64))"
+          },
+          {
+            "location": "pkg/types/powervs/defaults/platform.go",
+            "line": 25,
+            "additionalContext": "scanoss:match,n, err := rand.Int(rand.Reader, big.NewInt(253))"
+          }
+        ]
+      },
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "drbg",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "x86_64",
+          "cryptoFunctions": [
+            "generate"
+          ]
+        }
+      }
+    },
+    {
+      "bom-ref": "648e1d50-8a39-4ff7-ae25-3347b9b14cf2",
+      "type": "cryptographic-asset",
+      "name": "ECDH",
+      "evidence": {
+        "identity": [
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.ecdh.new-public-key"
+              }
+            ]
+          }
+        ],
+        "occurrences": [
+          {
+            "location": "pkg/asset/tls/bootstrapsshkeypair.go",
+            "line": 48,
+            "additionalContext": "scanoss:match,publicSSHKey, err := ssh.NewPublicKey(publicRSAKey)"
+          }
+        ]
+      },
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "key-agree",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "x86_64",
+          "cryptoFunctions": [
+            "keygen"
+          ]
+        },
+        "oid": "1.2.840.10045.2.1"
+      }
+    },
+    {
+      "bom-ref": "02a7bb8f-9f02-4504-8e79-b599a0aadb07",
+      "type": "cryptographic-asset",
+      "name": "ECDSA",
+      "evidence": {
+        "identity": [
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.x509.parse-ec-private-key"
+              }
+            ]
+          }
+        ],
+        "occurrences": [
+          {
+            "location": "pkg/asset/agent/gencrypto/authconfig.go",
+            "line": 129,
+            "additionalContext": "scanoss:match,privBytes, err := x509.MarshalECPrivateKey(priv)"
+          }
+        ]
+      },
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "x86_64",
+          "cryptoFunctions": [
+            "sign",
+            "verify"
+          ]
+        },
+        "oid": "1.2.840.10045.2.1"
+      }
+    },
+    {
+      "bom-ref": "7148900c-1b25-48f7-96d7-61dd1ed27ada",
+      "type": "cryptographic-asset",
+      "name": "ECDSA-P256",
+      "evidence": {
+        "identity": [
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.ecdsa.key-generation"
+              }
+            ]
+          }
+        ],
+        "occurrences": [
+          {
+            "location": "pkg/asset/agent/gencrypto/authconfig.go",
+            "line": 123,
+            "additionalContext": "scanoss:match,priv, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)"
+          }
+        ]
+      },
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "x86_64",
+          "cryptoFunctions": [
+            "sign",
+            "verify"
+          ]
+        },
+        "oid": "1.2.840.10045.2.1"
+      }
+    },
+    {
+      "bom-ref": "cc40994e-389b-4eef-a5fc-6fa9ee3d1789",
+      "type": "cryptographic-asset",
+      "name": "MD5",
+      "evidence": {
+        "identity": [
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.md5.hash-usage"
+              }
+            ]
+          }
+        ],
+        "occurrences": [
+          {
+            "location": "pkg/types/gcp/clouduid.go",
+            "line": 11,
+            "additionalContext": "scanoss:match,hash := md5.Sum([]byte(infraID))"
+          }
+        ]
+      },
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "128",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "x86_64",
+          "cryptoFunctions": [
+            "digest"
+          ]
+        },
+        "oid": "1.2.840.113549.2.5"
+      }
+    },
+    {
+      "bom-ref": "44636fa6-65ae-438b-9374-0ad626488404",
+      "type": "cryptographic-asset",
+      "name": "OTR",
+      "evidence": {
+        "identity": [
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.xcrypto.otr.privatekey-generate"
+              }
+            ]
+          }
+        ],
+        "occurrences": [
+          {
+            "location": "data/assets_generate.go",
+            "line": 15,
+            "additionalContext": "scanoss:match,err := vfsgen.Generate(data.Assets, vfsgen.Options{ PackageName: \"data\", BuildTags: \"release\", VariableName: \"Assets\", })"
+          },
+          {
+            "location": "pkg/asset/agent/installconfig.go",
+            "line": 167,
+            "additionalContext": "scanoss:match,asseterr := releaseImage.Generate(ctx, asset.Parents{})"
+          },
+          {
+            "location": "pkg/asset/agent/manifests/clusterimageset.go",
+            "line": 187,
+            "additionalContext": "scanoss:match,if err := releaseImage.Generate(ctx, asset.Parents{}); err != nil {"
+          },
+          {
+            "location": "pkg/asset/agent/mirror/registriesconf.go",
+            "line": 239,
+            "additionalContext": "scanoss:match,if err := releaseImage.Generate(ctx, asset.Parents{}); err != nil {"
+          },
+          {
+            "location": "pkg/asset/imagebased/configimage/cabundle.go",
+            "line": 36,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"kube-apiserver-complete-server-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/imagebased/configimage/ingressoperatorsigner.go",
+            "line": 90,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"ingress-operator-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/lbconfig/lbconfig.go",
+            "line": 71,
+            "additionalContext": "scanoss:match,if err := config.Generate(context.TODO(), asset.Parents{}); err != nil {"
+          },
+          {
+            "location": "pkg/asset/store/store.go",
+            "line": 227,
+            "additionalContext": "scanoss:match,if err := a.Generate(ctx, parents); err != nil {"
+          },
+          {
+            "location": "pkg/asset/tls/adminkubeconfig.go",
+            "line": 32,
+            "additionalContext": "scanoss:match,return c.SelfSignedCertKey.Generate(ctx, cfg, \"admin-kubeconfig-signer\")"
+          },
+          {
+            "location": "pkg/asset/tls/adminkubeconfig.go",
+            "line": 67,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"admin-kubeconfig-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/tls/adminkubeconfig.go",
+            "line": 103,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, ca, \"admin-kubeconfig-client\", DoNotAppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/aggregator.go",
+            "line": 41,
+            "additionalContext": "scanoss:match,return a.SelfSignedCertKey.Generate(ctx, cfg, \"aggregator-ca\")"
+          },
+          {
+            "location": "pkg/asset/tls/aggregator.go",
+            "line": 80,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, aggregatorCA, \"apiserver-proxy\", DoNotAppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/aggregator.go",
+            "line": 111,
+            "additionalContext": "scanoss:match,return c.SelfSignedCertKey.Generate(ctx, cfg, \"aggregator-signer\")"
+          },
+          {
+            "location": "pkg/asset/tls/aggregator.go",
+            "line": 141,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"aggregator-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/tls/aggregator.go",
+            "line": 177,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, ca, \"aggregator-client\", DoNotAppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 38,
+            "additionalContext": "scanoss:match,return c.SelfSignedCertKey.Generate(ctx, cfg, \"kube-apiserver-to-kubelet-signer\")"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 68,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"kube-apiserver-to-kubelet-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 104,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, ca, \"kube-apiserver-to-kubelet-client\", DoNotAppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 133,
+            "additionalContext": "scanoss:match,return c.SelfSignedCertKey.Generate(ctx, cfg, \"kube-apiserver-localhost-signer\")"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 168,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"kube-apiserver-localhost-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 208,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, ca, \"kube-apiserver-localhost-server\", AppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 237,
+            "additionalContext": "scanoss:match,return c.SelfSignedCertKey.Generate(ctx, cfg, \"kube-apiserver-service-network-signer\")"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 272,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"kube-apiserver-service-network-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 321,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, ca, \"kube-apiserver-service-network-server\", AppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 350,
+            "additionalContext": "scanoss:match,return c.SelfSignedCertKey.Generate(ctx, cfg, \"kube-apiserver-lb-signer\")"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 385,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"kube-apiserver-lb-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 424,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, ca, \"kube-apiserver-lb-server\", AppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 463,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, ca, \"kube-apiserver-internal-lb-server\", AppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 495,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"kube-apiserver-complete-server-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/tls/apiserver.go",
+            "line": 529,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"kube-apiserver-complete-client-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/tls/bootstrapsshkeypair.go",
+            "line": 38,
+            "additionalContext": "scanoss:match,if err := kp.Generate(ctx, bootstrapSSHKeyPairFilenameBase); err != nil {"
+          },
+          {
+            "location": "pkg/asset/tls/iricertkey.go",
+            "line": 89,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, ca, \"internal-release-image\", DoNotAppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/ironictls.go",
+            "line": 59,
+            "additionalContext": "scanoss:match,return a.SelfSignedCertKey.Generate(ctx, cfg, \"ironic/tls\")"
+          },
+          {
+            "location": "pkg/asset/tls/journalcertkey.go",
+            "line": 40,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, ca, \"journal-gatewayd\", DoNotAppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/kubecontrolplane.go",
+            "line": 35,
+            "additionalContext": "scanoss:match,return c.SelfSignedCertKey.Generate(ctx, cfg, \"kube-control-plane-signer\")"
+          },
+          {
+            "location": "pkg/asset/tls/kubecontrolplane.go",
+            "line": 68,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"kube-control-plane-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/tls/kubecontrolplane.go",
+            "line": 104,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, ca, \"kube-control-plane-kube-controller-manager-client\", DoNotAppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/kubecontrolplane.go",
+            "line": 140,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, ca, \"kube-control-plane-kube-scheduler-client\", DoNotAppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/kubelet.go",
+            "line": 35,
+            "additionalContext": "scanoss:match,return c.SelfSignedCertKey.Generate(ctx, cfg, \"kubelet-signer\")"
+          },
+          {
+            "location": "pkg/asset/tls/kubelet.go",
+            "line": 65,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"kubelet-client-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/tls/kubelet.go",
+            "line": 95,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"kubelet-serving-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/tls/kubelet.go",
+            "line": 125,
+            "additionalContext": "scanoss:match,return c.SelfSignedCertKey.Generate(ctx, cfg, \"kubelet-bootstrap-kubeconfig-signer\")"
+          },
+          {
+            "location": "pkg/asset/tls/kubelet.go",
+            "line": 155,
+            "additionalContext": "scanoss:match,return a.CertBundle.Generate(ctx, \"kubelet-bootstrap-kubeconfig-ca-bundle\", certs...)"
+          },
+          {
+            "location": "pkg/asset/tls/kubelet.go",
+            "line": 192,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, ca, \"kubelet-client\", DoNotAppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/mcscertkey.go",
+            "line": 71,
+            "additionalContext": "scanoss:match,return a.SignedCertKey.Generate(ctx, cfg, ca, \"machine-config-server\", DoNotAppendParent)"
+          },
+          {
+            "location": "pkg/asset/tls/root.go",
+            "line": 39,
+            "additionalContext": "scanoss:match,return c.SelfSignedCertKey.Generate(ctx, cfg, \"root-ca\")"
+          },
+          {
+            "location": "pkg/asset/tls/serviceaccountkeypair.go",
+            "line": 25,
+            "additionalContext": "scanoss:match,return a.KeyPair.Generate(ctx, \"service-account\")"
+          }
+        ]
+      },
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "signature",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "x86_64",
+          "cryptoFunctions": [
+            "sign",
+            "verify"
+          ]
+        }
+      }
+    },
+    {
+      "bom-ref": "0b81e15e-bc37-4a3a-8a0c-87a3ca79ebaf",
+      "type": "cryptographic-asset",
+      "name": "RSA",
+      "evidence": {
+        "identity": [
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.rsa.key-generation"
+              }
+            ]
+          },
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.x509.parse-pkcs1-key"
+              }
+            ]
+          },
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.rsa.key-type"
+              }
+            ]
+          },
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.x509.parse-pkcs1-key"
+              }
+            ]
+          }
+        ],
+        "occurrences": [
+          {
+            "location": "internal/tshelpers/fakeregistry.go",
+            "line": 302,
+            "additionalContext": "scanoss:match,pk, err := rsa.GenerateKey(rand.Reader, 2048)"
+          },
+          {
+            "location": "internal/tshelpers/fakeregistry.go",
+            "line": 330,
+            "additionalContext": "scanoss:match,keyPEM := pem.EncodeToMemory(\u0026pem.Block{Type: \"RSA PRIVATE KEY\", Bytes: x509.MarshalPKCS1PrivateKey(pk)})"
+          },
+          {
+            "location": "pkg/asset/tls/certkey.go",
+            "line": 131,
+            "additionalContext": "scanoss:match,var key *rsa.PrivateKey"
+          },
+          {
+            "location": "pkg/asset/tls/certkey.go",
+            "line": 195,
+            "additionalContext": "scanoss:match,var key *rsa.PrivateKey"
+          },
+          {
+            "location": "pkg/asset/tls/tls.go",
+            "line": 48,
+            "additionalContext": "scanoss:match,rsaKey, err := rsa.GenerateKey(rand.Reader, keySize)"
+          },
+          {
+            "location": "pkg/asset/tls/utils.go",
+            "line": 14,
+            "additionalContext": "scanoss:match,keyInBytes := x509.MarshalPKCS1PrivateKey(key)"
+          },
+          {
+            "location": "pkg/asset/tls/utils.go",
+            "line": 68,
+            "additionalContext": "scanoss:match,return x509.ParsePKCS1PrivateKey(block.Bytes)"
+          }
+        ]
+      },
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "pke",
+          "parameterSetIdentifier": "2048",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "x86_64",
+          "cryptoFunctions": [
+            "encrypt",
+            "decrypt"
+          ]
+        },
+        "oid": "1.2.840.113549.1.1.1"
+      }
+    },
+    {
+      "bom-ref": "197ec112-9b48-4f29-96e7-32f81d59f6e9",
+      "type": "cryptographic-asset",
+      "name": "SHA-1",
+      "evidence": {
+        "identity": [
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.sha1.hash-usage"
+              }
+            ]
+          }
+        ],
+        "occurrences": [
+          {
+            "location": "pkg/asset/imagebased/configimage/ingressoperatorsigner.go",
+            "line": 172,
+            "additionalContext": "scanoss:match,hash := sha1.Sum(publicKeyBytes) //nolint: gosec"
+          },
+          {
+            "location": "pkg/asset/tls/tls.go",
+            "line": 142,
+            "additionalContext": "scanoss:match,hash := sha1.Sum(publicKeyBytes)"
+          }
+        ]
+      },
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "160",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "x86_64",
+          "cryptoFunctions": [
+            "digest"
+          ]
+        },
+        "oid": "1.3.14.3.2.26"
+      }
+    },
+    {
+      "bom-ref": "653fafcc-074f-4c53-b7d0-aa0fa89733df",
+      "type": "cryptographic-asset",
+      "name": "SHA-256",
+      "evidence": {
+        "identity": [
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.sha256.hash-usage-256"
+              }
+            ]
+          }
+        ],
+        "occurrences": [
+          {
+            "location": "internal/tshelpers/fakeregistry.go",
+            "line": 394,
+            "additionalContext": "scanoss:match,hash := sha256.Sum256(data)"
+          },
+          {
+            "location": "pkg/asset/machines/master.go",
+            "line": 768,
+            "additionalContext": "scanoss:match,hash := sha256.Sum256([]byte(mac))"
+          },
+          {
+            "location": "pkg/asset/rhcos/releaseextract.go",
+            "line": 309,
+            "additionalContext": "scanoss:match,h := sha256.New()"
+          },
+          {
+            "location": "pkg/infrastructure/vsphere/clusterapi/import.go",
+            "line": 36,
+            "additionalContext": "scanoss:match,h := sha256.New()"
+          },
+          {
+            "location": "pkg/rhcos/cache/cache.go",
+            "line": 171,
+            "additionalContext": "scanoss:match,hasher := sha256.New()"
+          }
+        ]
+      },
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "hash",
+          "parameterSetIdentifier": "256",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "x86_64",
+          "cryptoFunctions": [
+            "digest"
+          ]
+        },
+        "oid": "2.16.840.1.101.3.4.2.1"
+      }
+    },
+    {
+      "bom-ref": "ea6c3adb-075b-4063-b9e6-dc9d59000528",
+      "type": "cryptographic-asset",
+      "name": "bcrypt",
+      "evidence": {
+        "identity": [
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.xcrypto.bcrypt.password-hash"
+              }
+            ]
+          }
+        ],
+        "occurrences": [
+          {
+            "location": "pkg/asset/password/password.go",
+            "line": 78,
+            "additionalContext": "scanoss:match,bytes, err := bcrypt.GenerateFromPassword([]byte(a.Password), bcrypt.DefaultCost)"
+          },
+          {
+            "location": "pkg/asset/tls/iriregistryauth.go",
+            "line": 74,
+            "additionalContext": "scanoss:match,hash, err := bcrypt.GenerateFromPassword([]byte(a.Password), bcrypt.DefaultCost)"
+          }
+        ]
+      },
+      "cryptoProperties": {
+        "assetType": "algorithm",
+        "algorithmProperties": {
+          "primitive": "kdf",
+          "executionEnvironment": "software-plain-ram",
+          "implementationPlatform": "x86_64",
+          "cryptoFunctions": [
+            "keyderive"
+          ]
+        }
+      }
+    },
+    {
+      "bom-ref": "98f69df8-ea56-4403-b922-11fa398d5f3d",
+      "type": "cryptographic-asset",
+      "name": "private-key",
+      "description": "Cryptographic private-key",
+      "evidence": {
+        "identity": [
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.x509.parse-pkcs8-private-key"
+              }
+            ]
+          }
+        ],
+        "occurrences": [
+          {
+            "location": "pkg/clusterapi/system.go",
+            "line": 739,
+            "additionalContext": "scanoss:match,keyBytes, err := x509.MarshalPKCS8PrivateKey(key)"
+          }
+        ]
+      },
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "private-key"
+        }
+      }
+    },
+    {
+      "bom-ref": "a7b4b6b0-e864-40aa-a801-bf2c1afcd9ea",
+      "type": "cryptographic-asset",
+      "name": "public-key",
+      "description": "Cryptographic public-key",
+      "evidence": {
+        "identity": [
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.x509.pkix-public-key"
+              }
+            ]
+          },
+          {
+            "field": "name",
+            "confidence": 1,
+            "methods": [
+              {
+                "technique": "source-code-analysis",
+                "confidence": 1,
+                "value": "scanoss:ruleid,go.crypto.x509.pkix-public-key"
+              }
+            ]
+          }
+        ],
+        "occurrences": [
+          {
+            "location": "pkg/asset/agent/gencrypto/authconfig.go",
+            "line": 146,
+            "additionalContext": "scanoss:match,pubBytes, err := x509.MarshalPKIXPublicKey(priv.Public())"
+          },
+          {
+            "location": "pkg/asset/tls/utils.go",
+            "line": 48,
+            "additionalContext": "scanoss:match,keyInBytes, err := x509.MarshalPKIXPublicKey(key)"
+          },
+          {
+            "location": "pkg/asset/tls/utils.go",
+            "line": 77,
+            "additionalContext": "scanoss:match,obji, err := x509.ParsePKIXPublicKey(block.Bytes)"
+          }
+        ]
+      },
+      "cryptoProperties": {
+        "assetType": "related-crypto-material",
+        "relatedCryptoMaterialProperties": {
+          "type": "public-key"
+        }
+      }
+    }
+  ]
+}
