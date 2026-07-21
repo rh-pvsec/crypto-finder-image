@@ -59,4 +59,3 @@ ENTRYPOINT [ "crypto-finder", \
     "--format", "cyclonedx", \
     "--timeout", "60m" \
 ]
-

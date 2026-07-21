@@ -1,0 +1,126 @@
+---
+kind: Pipeline
+apiVersion: tekton.dev/v1beta1
+metadata:
+  name: integration-tests-pipeline
+spec:
+  params:
+    - description: 'Snapshot of the application'
+      name: SNAPSHOT
+      type: string
+  tasks:
+    - name: images-for-testing
+      description: Task that gets the image used for testing and the image to test
+      params:
+        - name: SNAPSHOT
+          value: $(params.SNAPSHOT)
+      taskSpec:
+        params:
+        - name: SNAPSHOT
+        results:
+        - name: IMAGE_TO_TEST
+          type: string
+          description: Image to test
+        - name: TEST_REPO
+          type: string
+          description: Test repo url
+        - name: TEST_REPO_REVISION
+          type: string
+          description: Test repo revision
+
+        steps:
+        - image: registry.redhat.io/openshift4/ose-cli:latest
+          env:
+          - name: SNAPSHOT
+            value: $(params.SNAPSHOT)
+          script: |
+            #!/bin/bash
+            set -e
+            dnf -y install jq
+            snapshotComponents=$(jq -c '.components[]' <<< "${SNAPSHOT}")
+  
+            echo -e "Example test task for the Snapshot:\n ${SNAPSHOT}"
+            # Run custom tests for the given Snapshot here
+            while read componentEntry
+            do
+              # Variables
+              componentName=$(echo "${componentEntry}" | jq -r '.name')
+              componentUrl=$(echo "${componentEntry}" | jq -r '.source.git.url')
+              componentUrlWithoutSuffix=$(echo $componentUrl | sed 's/\.git$//')
+              componentSha=$(echo "${componentEntry}" | jq -r '.source.git.revision')
+  
+              echo "Print the infomation for component ${componentName} included in snapshot, more test can be added to inspect git source and containerImage in component::"
+              echo "${componentName}"
+              echo "${componentUrl}"
+              echo "${componentUrlWithoutSuffix}"
+              echo "${componentSha}"
+            done < <(echo "$snapshotComponents")
+  
+            # Output
+            IMAGE_TO_TEST=$(jq -r '.components[] | select (.name == "crypto-finder-image").containerImage' <<< $SNAPSHOT)
+            TEST_REPO=$(jq -r '.components[] | select (.name == "crypto-finder-image").source.git.url' <<< $SNAPSHOT)
+            TEST_REPO_REVISION=$(jq -r '.components[] | select (.name == "crypto-finder-image").source.git.revision' <<< $SNAPSHOT)
+
+            # Print and save output
+            echo "IMAGE_TO_TEST: ${IMAGE_TO_TEST}"
+            echo -n "${IMAGE_TO_TEST}" > $(results.IMAGE_TO_TEST.path)
+            echo "TEST_REPO: ${TEST_REPO}"
+            echo -n "${TEST_REPO}" > $(results.TEST_REPO.path)
+            echo "TEST_REPO_REVISION: ${TEST_REPO_REVISION}"
+            echo -n "${TEST_REPO_REVISION}" > $(results.TEST_REPO_REVISION.path)
+
+    - name: integration-testing
+      description: Task that gets the image used for testing and the image to test
+      runAfter:
+        - images-for-testing
+      params:
+        - name: IMAGE_TO_TEST
+          value: $(tasks.images-for-testing.results.IMAGE_TO_TEST)
+        - name: TEST_REPO
+          value: $(tasks.images-for-testing.results.TEST_REPO)
+        - name: TEST_REPO_REVISION
+          value: $(tasks.images-for-testing.results.TEST_REPO_REVISION)
+
+      taskSpec:
+        params:
+        - name: IMAGE_TO_TEST
+          type: string
+        - name: TEST_REPO
+          type: string
+        - name: TEST_REPO_REVISION
+          type: string
+        results:
+        - name: TEST_OUTPUT
+          type: string
+        steps:
+        - image: $(tasks.images-for-testing.results.IMAGE_TO_TEST)
+          env:
+          - name: IMAGE_TO_TEST
+            value: $(params.IMAGE_TO_TEST)
+          - name: TEST_REPO
+            value: $(params.TEST_REPO)
+          - name: TEST_REPO_REVISION
+            value: $(params.TEST_REPO_REVISION)
+
+          script: |
+            #!/bin/bash
+            set -e
+
+            echo "IMAGE_TO_TEST: ${IMAGE_TO_TEST}"
+            echo "TEST_REPO: ${TEST_REPO}"
+            echo "TEST_REPO_REVISION: ${TEST_REPO_REVISION}"
+
+            microdnf install -y jq python3-pip git-core
+
+            git clone --no-checkout "$TEST_REPO" .
+            git checkout $TEST_REPO_REVISION
+            pip install -r test-requirements.txt
+            pytest -v tests/test_local.py
+
+            # After the tests finish, record the overall result in the RESULT variable
+            RESULT="SUCCESS"
+  
+            # Output the standardized TEST_OUTPUT result in JSON form
+            TEST_OUTPUT=$(jq -rc --arg date $(date -u --iso-8601=seconds) --arg RESULT "${RESULT}" --null-input \
+              '{result: $RESULT, timestamp: $date, failures: 0, successes: 1, warnings: 0}')
+            echo -n "${TEST_OUTPUT}" | tee $(results.TEST_OUTPUT.path)
