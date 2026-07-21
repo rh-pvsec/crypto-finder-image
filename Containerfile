@@ -27,7 +27,7 @@ RUN CGO_ENABLED=1 GOOS=linux go build --tags netgo \
     ./cmd/crypto-finder
 
 # Final image based on UBI 9
-FROM registry.access.redhat.com/ubi9/ubi-minimal:latest@sha256:932acc913841596b4bdb1dfb6280987b81c2d9f4d337d0a57c9a98fc749e10bd as final
+FROM registry.access.redhat.com/ubi9/ubi-minimal:latest@sha256:c1e895ed92320c0e75858ab41799c3b9558103126338d24fb753d73c41af2a50 as final
 
 # Install OpenGrep (minimum version 1.12.1)
 # TODO: cosign verification of binary
