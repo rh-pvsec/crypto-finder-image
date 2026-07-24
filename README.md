@@ -44,12 +44,12 @@ You only need to provide a source folder to scan (usually mapped as a volume).
 
 ## Usage
 
-The image is being built in konflux pipeline and distributed here: `docker://images.paas.redhat.com/exd-sp-guild-security/rh-crypto-scanner-image:latest`.
+The image is being built in konflux pipeline and distributed here: `docker://quay.io/exd-guild-security/crypto-finder-image:latest`.
 
 You need to map the sources to scan inside the container, for example in the following command we mount the `./src` folder into `/workspace` and we specify it as an additional argument:
 
 ```bash
-podman run -v ./src:/workspace:z --rm  docker://images.paas.redhat.com/exd-sp-guild-security/rh-crypto-scanner-image:latest /workspace > cbom.json
+podman run -v ./src:/workspace:z --rm  docker://quay.io/exd-guild-security/crypto-finder-image:latest /workspace > cbom.json
 ```
 
 You will get as standard output a CBOM CycloneDX with components of crypto-assets described.
@@ -57,7 +57,7 @@ You will get as standard output a CBOM CycloneDX with components of crypto-asset
 You can review the defined ENTRYPOINT in the [Containerfile](Containerfile), in case you need to remove or replace an already provided argument you can override it like:
 
 ```bash
-$ podman run -v ./src:/workspace:z --rm -ti --entrypoint crypto-finder docker://images.paas.redhat.com/exd-sp-guild-security/rh-crypto-scanner-image:latest scan --help
+$ podman run -v ./src:/workspace:z --rm -ti --entrypoint crypto-finder docker://quay.io/exd-guild-security/crypto-finder-image:latest scan --help
 Scan source code repositories for cryptographic algorithm usage.
 
         The scan command executes a scanner (default: OpenGrep) against the target
@@ -117,7 +117,7 @@ Use the following minimal sample repo for an example based on OpenSSL library:
 
 ```bash
 git clone https://gitlab.cee.redhat.com/security-guild/crypto-scanning/sample/rsa-signer-c.git
-podman run -v ./rsa-signer-c:/workspace:z --rm  docker://images.paas.redhat.com/exd-sp-guild-security/rh-crypto-scanner-image:latest /workspace > cbom.json
+podman run -v ./rsa-signer-c:/workspace:z --rm  docker://quay.io/exd-guild-security/crypto-finder-image:latest /workspace > cbom.json
 # Scan Summary
 
  • Files with findings: 3
