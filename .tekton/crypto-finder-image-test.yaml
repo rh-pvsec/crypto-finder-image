@@ -29,7 +29,7 @@ spec:
           description: Test repo revision
 
         steps:
-        - image: registry.redhat.io/openshift4/ose-cli:latest
+        - image: registry.redhat.io/openshift4/ose-cli@sha256:19d5ab1748456a63e53d7ee679b5700b01edf8a2c8684fc64c0461b15c2d165f
           env:
           - name: SNAPSHOT
             value: $(params.SNAPSHOT)
