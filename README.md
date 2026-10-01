@@ -140,6 +140,15 @@ cat cbom.json
 - Repo: [linux-6.19](https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.19.tar.gz)
   CBOM: [linux-6.19.json](sample/cbom/linux-6.19.json) (scan took 130 minutes on a Lenovo P1 G7)
 
+## Build constraints
+
+The image is built by the Konflux pipelines in [.tekton](.tekton). The build is
+**not hermetic**: it downloads Go modules and the Opengrep release binary at
+image build time, so the `hermetic` param must stay `"false"` until those
+network dependencies are removed. See
+[Build constraints in AGENTS.md](AGENTS.md#build-constraints) for the details
+and the path forward.
+
 ## Fullsend
 
 This repository is enrolled in [Fullsend](https://github.com/fullsend-ai/fullsend) for automated issue triage, code implementation, review, and CI fix agents.
