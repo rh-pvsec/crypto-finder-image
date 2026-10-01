@@ -23,10 +23,12 @@ image build time:
    downloads the release binary from
    `https://github.com/opengrep/opengrep/releases/download/...`.
 
-The `prefetch-dependencies` task cannot compensate for either one:
-`prefetch-input` defaults to `""` in both build pipelines, so the task is a
-no-op. Even with a populated `prefetch-input`, Cachi2 would cover the Go
-modules but not an arbitrary release binary pulled from GitHub.
+The `prefetch-dependencies` task cannot compensate for either one as
+configured: `prefetch-input` defaults to `""` in both build pipelines, so
+the task is a no-op. Populating it is not a drop-in fix either — Cachi2's
+`gomod` fetcher would cover the Go modules, but the Opengrep release binary
+would need Cachi2's `generic` fetcher (an `artifacts.lock.yaml` entry with a
+pinned `download_url` and checksum) or removal of the download altogether.
 
 Setting `hermetic` to `"true"` on its own therefore does not make the build
 hermetic — it makes it fail, or masks the real problem rather than fixing
@@ -38,12 +40,19 @@ closed unmerged for exactly this reason.
 
 To make hermetic builds genuinely possible, in roughly this order:
 
-1. Stop fetching the Opengrep binary over the network — vendor it, build it
-   from source in a builder stage, or consume it from a trusted registry
-   image rather than a GitHub release.
-2. Populate `prefetch-input` (e.g. `gomod`) so `prefetch-dependencies`
-   actually prefetches the Go dependencies, and drop the in-build
-   `go mod download`.
+1. Stop fetching the Opengrep binary over the network at build time —
+   vendor it, build it from source in a builder stage, consume it from a
+   trusted registry image rather than a GitHub release, or prefetch it with
+   Cachi2's `generic` fetcher. Note that `install-opengrep.sh` also queries
+   the GitHub releases API to validate the requested version, so prefetching
+   the binary alone is not enough — that call has to go too.
+2. Populate `prefetch-input` so `prefetch-dependencies` actually prefetches
+   the Go dependencies, and drop the in-build `go mod download`. The Go
+   module metadata is not at the repo root: `go.mod`/`go.sum` live in the
+   `crypto-finder` submodule (see [`.gitmodules`](.gitmodules)), which
+   [`Containerfile:10`](Containerfile) copies from. A bare `gomod` input
+   would resolve against the repo root and find no module — use something
+   like `[{"type": "gomod", "path": "crypto-finder"}]`.
 3. Only then flip `hermetic` to `"true"`, in **both**
    [`.tekton/crypto-finder-image-pull-request.yaml`](.tekton/crypto-finder-image-pull-request.yaml)
    and
