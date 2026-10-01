@@ -44,6 +44,11 @@ You only need to provide a source folder to scan (usually mapped as a volume).
 
 ## Usage
 
+### Konflux
+
+If you want to include the tool in a konflux pipeline, there are tasks already implemented which use this tool. Please follow the instructions [here](https://github.com/rh-pvsec/crypto-scanner-tasks).
+
+### Generic
 The image is being built in konflux pipeline and distributed here: `docker://quay.io/exd-guild-security/crypto-finder-image:latest`.
 
 You need to map the sources to scan inside the container, for example in the following command we mount the `./src` folder into `/workspace` and we specify it as an additional argument:
