@@ -59,6 +59,9 @@ spec:
       description: Skip checks against built image
       name: skip-checks
       type: string
+    # Must stay "false": the build fetches Go modules and the Opengrep
+    # release binary from the network, and prefetch-input is empty.
+    # See "Build constraints" in AGENTS.md before changing this.
     - default: "false"
       description: Execute the build with network isolation
       name: hermetic
