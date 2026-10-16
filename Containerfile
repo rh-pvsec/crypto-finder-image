@@ -37,6 +37,7 @@ RUN /root/install-opengrep.sh -v v1.16.4 \
 
 # Add opengrep to PATH
 ENV PATH="$PATH:/root/.opengrep/cli/latest"
+ENV LANG="C.utf8"
 
 COPY --from=builder /build/crypto-finder /usr/local/bin/crypto-finder
 
