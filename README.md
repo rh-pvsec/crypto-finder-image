@@ -146,6 +146,15 @@ cat cbom.json
 - Repo: [linux-6.19](https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.19.tar.gz)
   CBOM: [linux-6.19.json](sample/cbom/linux-6.19.json) (scan took 130 minutes on a Lenovo P1 G7)
 
+## Contributing
+
+After cloning, install the pre-commit hooks to prevent accidental secret leakage:
+
+```bash
+pip install pre-commit
+pre-commit install
+```
+
 ## Fullsend
 
 This repository is enrolled in [Fullsend](https://github.com/fullsend-ai/fullsend) for automated issue triage, code implementation, review, and CI fix agents.
