@@ -32,7 +32,7 @@ FROM registry.access.redhat.com/ubi9/ubi-minimal:latest@sha256:c2fcb1793e00a4344
 # Install OpenGrep (minimum version 1.12.1)
 # TODO: cosign verification of binary
 COPY install-opengrep.sh /root
-RUN /root/install-opengrep.sh -v v1.16.4 \
+RUN /root/install-opengrep.sh -v v1.22.0 \
     && rm -f /root/install-opengrep.sh
 
 # Add opengrep to PATH
