@@ -1,6 +1,6 @@
 # crypto-finder Builder based on:
 # https://github.com/scanoss/crypto-finder/blob/main/Dockerfile
-FROM  registry.access.redhat.com/ubi9/go-toolset:1.26.7-1792425967@sha256:fdfd65e432655801f89a7771c612c4225a94d214e3f1cc932f0e005347ccb11f AS builder
+FROM  registry.access.redhat.com/ubi9/go-toolset:1.26.10-1793294290@sha256:56881c8ed2aa8c3b8493a89f62c8dc9f575747708380d2bae861224ccefd7d5c AS builder
 USER root
 
 # Set working directory
