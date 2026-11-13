@@ -1,6 +1,6 @@
 # crypto-finder Builder based on:
 # https://github.com/scanoss/crypto-finder/blob/main/Dockerfile
-FROM  registry.access.redhat.com/ubi9/go-toolset:1.26.7-1790174511@sha256:0f2be9ed624fabfe8625ffa510d2b243766249006518e551ef9e0b486f195e90 AS builder
+FROM  registry.access.redhat.com/ubi9/go-toolset:1.27.3-1793884566@sha256:1bed85bc3525b734cc7a7772a68d47644ede9af2c026d98505f09bc330bfa8e5 AS builder
 USER root
 
 # Set working directory
@@ -27,16 +27,17 @@ RUN CGO_ENABLED=1 GOOS=linux go build --tags netgo \
     ./cmd/crypto-finder
 
 # Final image based on UBI 9
-FROM registry.access.redhat.com/ubi9/ubi-minimal:latest@sha256:eba570d04193d1523a8576b1c0ff00e681c9edb1a41d4742559b6e3ff457601e as final
+FROM registry.access.redhat.com/ubi9/ubi-minimal:latest@sha256:f8700bef6b1c99d806c13e43542ce9f2534b137914ade791e4ced7283221147b as final
 
 # Install OpenGrep (minimum version 1.12.1)
 # TODO: cosign verification of binary
 COPY install-opengrep.sh /root
-RUN /root/install-opengrep.sh -v v1.16.4 \
+RUN /root/install-opengrep.sh -v v1.22.0 \
     && rm -f /root/install-opengrep.sh
 
 # Add opengrep to PATH
 ENV PATH="$PATH:/root/.opengrep/cli/latest"
+ENV LANG="C.utf8"
 
 COPY --from=builder /build/crypto-finder /usr/local/bin/crypto-finder
 
