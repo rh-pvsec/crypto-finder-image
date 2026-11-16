@@ -23,7 +23,21 @@ inference:
 
 agents:
   - name: review
+    # default trigger defined here: https://github.com/fullsend-ai/agents/blob/main/harness/review.yaml
     trigger: >-
-      event.transition.kind in ["pull_request_created", "pull_request_ready", "synchronized"] &&
-      event.actor.name != "red-hat-konflux-kflux-prd-rh02[bot]"
+      (
+        (event.entity.kind == "change_proposal"
+          && event.transition.kind in ["opened", "synchronized", "marked_ready"])
+        || (event.entity.kind == "change_proposal"
+          && event.transition.kind == "label_changed"
+          && event.transition.label.name == "ready-for-review"
+          && event.transition.label.action == "added")
+        || (event.transition.kind == "comment_added"
+          && has(event.transition.comment.command)
+          && event.transition.comment.command == "/fs-review"
+          && event.actor.kind == "human"
+          && (event.entity.kind == "change_proposal"
+            || has(event.entity.linked_change_proposal)))
+      )
+      && event.actor.id != "red-hat-konflux-kflux-prd-rh02[bot]"
 
