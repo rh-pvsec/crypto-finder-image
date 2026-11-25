@@ -3,6 +3,9 @@
   "addLabels": [
     "renovate"
   ],
+  "git-submodules": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "description": "Automerge Konflux pipeline references",
