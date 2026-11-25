@@ -1,7 +1,7 @@
 [submodule "crypto-finder"]
 	path = crypto-finder
 	url = https://github.com/scanoss/crypto-finder
-	branch = main
+	branch = v0.55.1
 [submodule "rh-crypto-rules"]
 	path = rh-crypto-rules
 	url = https://github.com/rh-pvsec/rh-crypto-rules.git
